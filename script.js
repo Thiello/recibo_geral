@@ -23,35 +23,44 @@ document.getElementById('generatePDF').addEventListener('click', async () => {
 
     // Define o tamanho e a cor da fonte padrão
     doc.setFontSize(20);
-    doc.setTextColor(80, 80, 80); // Preto
+    doc.setTextColor(80, 80, 80); // Cor cinza escuro
 
     // Adiciona o conteúdo do formulário no PDF com formatação
     doc.text(`NF: ${invoiceNumber}`, 5, 17);
-        
-    // Exemplo de como mudar a cor e o tamanho para algumas partes específicas
+
     doc.setFontSize(14); // Ajusta o tamanho da fonte
-    doc.setTextColor(80, 80, 80); // Cor vermelha
+    doc.setTextColor(80, 80, 80); // Cor cinza escuro
     doc.text(`Remetente: ${sender}`, 5, 141);
 
-    doc.setFontSize(14); // Volta ao tamanho da fonte padrão
-    doc.setTextColor(80, 80, 80); // Cor preta
+    doc.setFontSize(14); // Mantém o tamanho da fonte
+    doc.setTextColor(80, 80, 80); // Cor cinza escuro
     doc.text(`Destinatário: ${recipient}`, 5, 156);
 
-    doc.setFontSize(14); // Tamanho menor para esta linha
-    doc.setTextColor(80, 80, 80); // Cor verde
+    doc.setFontSize(14); // Mantém o tamanho da fonte
+    doc.setTextColor(80, 80, 80); // Cor cinza escuro
     doc.text(`Qtd Vol.: ${quantity}`, 5, 171);
 
-    doc.setFontSize(14);
-    doc.setTextColor(80, 80, 80); // Cor azul
+    doc.setFontSize(14); // Mantém o tamanho da fonte
+    doc.setTextColor(80, 80, 80); // Cor cinza escuro
     doc.text(`Vlr da NF: R$ ${invoiceValue}`, 5, 186);
 
-    doc.setFontSize(14);
-    doc.setTextColor(80, 80, 80); // Cor preta
+    doc.setFontSize(14); // Mantém o tamanho da fonte
+    doc.setTextColor(80, 80, 80); // Cor cinza escuro
     doc.text(`Vlr do Frete: R$ ${freightValue}`, 5, 265);
 
-    doc.setFontSize(14);
-    doc.setTextColor(80, 80, 80); // Cor roxa
-    doc.text(`Observações: ${observations}`, 5, 216);
+    doc.setFontSize(14); // Mantém o tamanho da fonte
+    doc.setTextColor(80, 80, 80); // Cor cinza escuro
+
+    // Define a largura máxima para a linha de texto
+    const pageWidth = doc.internal.pageSize.getWidth() - 10; // Largura da página - margem
+    const observationsLines = doc.splitTextToSize(`Observações: ${observations}`, pageWidth);
+    
+    // Adiciona o texto com quebras de linha
+    let yOffset = 216; // Posição inicial para as observações
+    observationsLines.forEach(line => {
+        doc.text(line, 5, yOffset);
+        yOffset += 10; // Ajusta a distância entre linhas
+    });
 
     // Salva o PDF
     doc.save('recibo_pagamento.pdf');
