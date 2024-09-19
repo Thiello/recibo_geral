@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><font size=4 color="#515151">Gerar Recibo de Pagamento</font></title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gerar Recibo de Pagamento</h1>
+        <form id="receiptForm">
+            <label for="invoiceNumber"><font size=4 color="#515151">Número da Nota Fiscal:</font></label>
+            <input type="text" id="invoiceNumber" name="invoiceNumber" required>
+
+            <label for="sender"><font size=4 color="#515151">Remetente:</font></label>
+            <input type="text" id="sender" name="sender" required>
+
+            <label for="recipient"><font size=4 color="#515151">Destinatário:</font></label>
+            <input type="text" id="recipient" name="recipient" required>
+
+            <label for="quantity"><font size=4 color="#515151">Quantidade de Volumes:</font></label>
+            <input type="number" id="quantity" name="quantity" required>
+
+            <label for="invoiceValue"><font size=4 color="#515151">Valor da Nota Fiscal:</font></label>
+            <input type="number" id="invoiceValue" name="invoiceValue" step="0.01" required>
+
+            <label for="freightValue"><font size=4 color="#515151">Valor do Frete:</font></label>
+            <input type="number" id="freightValue" name="freightValue" step="0.01" required>
+
+            <label for="observations"><font size=4 color="#515151">Observações:</label>
+            <textarea id="observations" name="observations" rows="4"></textarea>
+
+            <button type="button" id="generatePDF">Gerar PDF</button>
+        </form>
+    </div>
+    <!-- Biblioteca jsPDF -->
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
