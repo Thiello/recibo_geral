@@ -50,7 +50,7 @@ document.getElementById('generatePDF').addEventListener('click', async () => {
     const dataFormatada = hoje.toLocaleDateString('pt-BR'); // Formato: DD/MM/AAAA
     doc.setFontSize(12);
     doc.setTextColor(80, 80, 80);
-    doc.text(`Data: ${dataFormatada}`, 160, 17); // Ajuste as coordenadas conforme necessário
+    doc.text(`Data: ${dataFormatada}`, 160, 160); // Ajuste as coordenadas conforme necessário
 
     // Salva o PDF
     doc.save('recibo_pagamento.pdf');
