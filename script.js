@@ -28,39 +28,29 @@ document.getElementById('generatePDF').addEventListener('click', async () => {
     // Adiciona o conteúdo do formulário no PDF com formatação
     doc.text(`NF: ${invoiceNumber}`, 5, 17);
 
-    doc.setFontSize(14); // Ajusta o tamanho da fonte
-    doc.setTextColor(80, 80, 80); // Cor cinza escuro
+    doc.setFontSize(14);
+    doc.setTextColor(80, 80, 80);
     doc.text(`Remetente: ${sender}`, 5, 141);
-
-    doc.setFontSize(14); // Mantém o tamanho da fonte
-    doc.setTextColor(80, 80, 80); // Cor cinza escuro
     doc.text(`Destinatário: ${recipient}`, 5, 156);
-
-    doc.setFontSize(14); // Mantém o tamanho da fonte
-    doc.setTextColor(80, 80, 80); // Cor cinza escuro
     doc.text(`Qtd Vol.: ${quantity}`, 5, 171);
-
-    doc.setFontSize(14); // Mantém o tamanho da fonte
-    doc.setTextColor(80, 80, 80); // Cor cinza escuro
     doc.text(`Vlr da NF: R$ ${invoiceValue}`, 5, 186);
-
-    doc.setFontSize(14); // Mantém o tamanho da fonte
-    doc.setTextColor(80, 80, 80); // Cor cinza escuro
     doc.text(`Vlr do Frete: R$ ${freightValue}`, 5, 265);
 
-    doc.setFontSize(14); // Mantém o tamanho da fonte
-    doc.setTextColor(80, 80, 80); // Cor cinza escuro
-
-    // Define a largura máxima para a linha de texto
-    const pageWidth = doc.internal.pageSize.getWidth() - 10; // Largura da página - margem
+    const pageWidth = doc.internal.pageSize.getWidth() - 10;
     const observationsLines = doc.splitTextToSize(`Observações: ${observations}`, pageWidth);
     
-    // Adiciona o texto com quebras de linha
-    let yOffset = 216; // Posição inicial para as observações
+    let yOffset = 216;
     observationsLines.forEach(line => {
         doc.text(line, 5, yOffset);
-        yOffset += 10; // Ajusta a distância entre linhas
+        yOffset += 10;
     });
+
+    // ✅ Adiciona a data atual
+    const hoje = new Date();
+    const dataFormatada = hoje.toLocaleDateString('pt-BR'); // Formato: DD/MM/AAAA
+    doc.setFontSize(12);
+    doc.setTextColor(80, 80, 80);
+    doc.text(`Data: ${dataFormatada}`, 160, 17); // Ajuste as coordenadas conforme necessário
 
     // Salva o PDF
     doc.save('recibo_pagamento.pdf');
