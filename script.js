@@ -1,3 +1,12 @@
+// script.js (no topo)
+const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+if (!usuarioLogado || !usuarioLogado.autorizado || !usuarioLogado.confirmado) {
+  alert("Você precisa estar logado para acessar esta página.");
+  window.location.href = "login.html";
+}
+
+
 document.getElementById('generatePDF').addEventListener('click', async () => {
     const { jsPDF } = window.jspdf;
 
@@ -50,7 +59,7 @@ document.getElementById('generatePDF').addEventListener('click', async () => {
     const dataFormatada = hoje.toLocaleDateString('pt-BR'); // Formato: DD/MM/AAAA
     doc.setFontSize(12);
     doc.setTextColor(80, 80, 80);
-    doc.text(`Data: ${dataFormatada}`, 5, 17); // Ajuste as coordenadas conforme necessário
+    doc.text(`Data: ${dataFormatada}`, 160, 53); // Ajuste as coordenadas conforme necessário
 
     // Salva o PDF
     doc.save('recibo_pagamento.pdf');

@@ -1,0 +1,66 @@
+/* Fonte padrão */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+}
+
+/* Container principal */
+.container {
+  max-width: 700px;
+  margin: 60px auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 30px 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Título */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #333;
+}
+
+/* Formulário */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels mais colados aos inputs */
+label {
+  margin: 0 0 4px 0;
+  font-weight: bold;
+  font-size: 14px;
+  color: #444;
+}
+
+/* Inputs e textarea */
+input, textarea {
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 14px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Botão */
+button {
+  padding: 10px;
+  font-size: 15px;
+  background-color: #ff3f3f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #cd0000;
+}
