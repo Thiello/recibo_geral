@@ -1,63 +1,92 @@
-/* Definição da fonte personalizada */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+/* Fonte personalizada opcional */
 @font-face {
-    font-family: 'CerebriSansBold';
-    src: url('Cerebri-Sans-Bold.ttf') format('truetype'); /* Ajuste o caminho e o formato conforme necessário */
+  font-family: 'CerebriSansBold';
+  src: url('Cerebri-Sans-Bold.ttf') format('truetype');
 }
 
-/* Estilos do corpo do documento */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'CerebriSansBold', sans-serif; /* Aplicando a fonte personalizada */
-    background: url('fundo.jpg') no-repeat center center fixed;
-    background-size: cover;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'CerebriSansBold', sans-serif;
+  background: url('fundo.jpg') no-repeat center center fixed;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-
+/* Glassmorphism Container */
 .container {
-    max-width: 420px;
-    background-color: rgba(255, 255, 255, 0.5); /* Transparencia de 50% */
-    padding: 40px;
-    border-radius: 8px;
-    width: 60%;
-    margin: 50px auto;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  padding: 40px;
+  width: 90%;
+  max-width: 420px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 h1 {
-    text-align: center;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 24px;
 }
 
 form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 label {
-    margin: 0 0 2px 0; /* remove margens laterais e de cima */
-    font-weight: bold;
-    font-size: 14px;   /* opcional: tamanho mais discreto */
+  margin-bottom: 6px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
 }
 
-input, textarea {
-    margin: 0 0 10px 0; /* somente espaço abaixo do input */
-    padding: 6px 8px;
-    font-size: 15px;
-    width: 100%;
-    max-width: 100%; /* força manter dentro do container */
-    box-sizing: border-box;
+input,
+textarea {
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #eee;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #ff3f3f;
+  background: rgba(255, 255, 255, 0.3);
 }
 
 button {
-    margin-top: 20px;
-    padding: 10px;
-    font-size: 16px;
-    background-color: #ff3f3f;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  background-color: #ff3f3f;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
 button:hover {
-    background-color: #cd0000;
+  background-color: #d60000;
+  transform: scale(1.02);
 }
