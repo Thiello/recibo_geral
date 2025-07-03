@@ -1,92 +1,58 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+document.addEventListener('DOMContentLoaded', () => {
+  const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+  if (!usuarioLogado || !usuarioLogado.autorizado || !usuarioLogado.confirmado) {
+    alert("Você precisa estar logado para acessar esta página.");
+    window.location.href = "login.html";
+    return;
+  }
 
-/* Fonte personalizada opcional */
-@font-face {
-  font-family: 'CerebriSansBold';
-  src: url('Cerebri-Sans-Bold.ttf') format('truetype');
-}
+  // Verifica se o jsPDF está disponível
+  if (!window.jspdf || !window.jspdf.jsPDF) {
+    alert("jsPDF não foi carregado corretamente.");
+    return;
+  }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', 'CerebriSansBold', sans-serif;
-  background: url('fundo.jpg') no-repeat center center fixed;
-  background-size: cover;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  const { jsPDF } = window.jspdf;
 
-/* Glassmorphism Container */
-.container {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-  padding: 40px;
-  width: 90%;
-  max-width: 420px;
-  box-sizing: border-box;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-}
+  document.getElementById('generatePDF').addEventListener('click', () => {
+    const invoiceNumber = document.getElementById('invoiceNumber').value;
+    const sender = document.getElementById('sender').value;
+    const recipient = document.getElementById('recipient').value;
+    const quantity = document.getElementById('quantity').value;
+    const invoiceValue = document.getElementById('invoiceValue').value;
+    const freightValue = document.getElementById('freightValue').value;
+    const observations = document.getElementById('observations').value;
 
-h1 {
-  text-align: center;
-  color: #fff;
-  margin-bottom: 24px;
-}
+    const doc = new jsPDF();
 
-form {
-  display: flex;
-  flex-direction: column;
-}
+    // ⚠️ Certifique-se que template.png está no mesmo diretório
+    doc.addImage('template.png', 'PNG', 0, 0, 210, 297);
 
-label {
-  margin-bottom: 6px;
-  color: #fff;
-  font-weight: 600;
-  font-size: 14px;
-}
+    doc.setFontSize(20);
+    doc.setTextColor(80, 80, 80);
+    doc.text(`NF: ${invoiceNumber}`, 5, 17);
 
-input,
-textarea {
-  margin-bottom: 16px;
-  padding: 10px 12px;
-  font-size: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  color: #fff;
-  outline: none;
-  transition: border-color 0.2s ease;
-}
+    doc.setFontSize(14);
+    doc.text(`Remetente: ${sender}`, 5, 141);
+    doc.text(`Destinatário: ${recipient}`, 5, 156);
+    doc.text(`Qtd Vol.: ${quantity}`, 5, 171);
+    doc.text(`Vlr da NF: R$ ${invoiceValue}`, 5, 186);
+    doc.text(`Vlr do Frete: R$ ${freightValue}`, 5, 265);
 
-input::placeholder,
-textarea::placeholder {
-  color: #eee;
-}
+    const pageWidth = doc.internal.pageSize.getWidth() - 10;
+    const observationsLines = doc.splitTextToSize(`Observações: ${observations}`, pageWidth);
+    
+    let yOffset = 216;
+    observationsLines.forEach(line => {
+        doc.text(line, 5, yOffset);
+        yOffset += 10;
+    });
 
-input:focus,
-textarea:focus {
-  border-color: #ff3f3f;
-  background: rgba(255, 255, 255, 0.3);
-}
+    const hoje = new Date();
+    const dataFormatada = hoje.toLocaleDateString('pt-BR');
+    doc.setFontSize(12);
+    doc.text(`Data: ${dataFormatada}`, 160, 53);
 
-button {
-  background-color: #ff3f3f;
-  color: #fff;
-  border: none;
-  padding: 12px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.1s ease;
-}
-
-button:hover {
-  background-color: #d60000;
-  transform: scale(1.02);
-}
+    doc.save('recibo_pagamento.pdf');
+  });
+});
