@@ -1,20 +1,21 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-  if (!usuarioLogado || !usuarioLogado.autorizado || !usuarioLogado.confirmado) {
-    alert("Você precisa estar logado para acessar esta página.");
-    window.location.href = "login.html";
-    return;
-  }
+// script.js (no topo)
+const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
 
-  // Verifica se o jsPDF está disponível
-  if (!window.jspdf || !window.jspdf.jsPDF) {
-    alert("jsPDF não foi carregado corretamente.");
-    return;
-  }
+if (!usuarioLogado || !usuarioLogado.autorizado || !usuarioLogado.confirmado) {
+  alert("Você precisa estar logado para acessar esta página.");
+  window.location.href = "login.html";
+}
 
-  const { jsPDF } = window.jspdf;
 
-  document.getElementById('generatePDF').addEventListener('click', () => {
+document.getElementById('generatePDF').addEventListener('click', async () => {
+    const { jsPDF } = window.jspdf;
+
+    if (!jsPDF) {
+        console.error('jsPDF não está disponível.');
+        return;
+    }
+
+    // Coleta os valores do formulário
     const invoiceNumber = document.getElementById('invoiceNumber').value;
     const sender = document.getElementById('sender').value;
     const recipient = document.getElementById('recipient').value;
@@ -23,16 +24,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const freightValue = document.getElementById('freightValue').value;
     const observations = document.getElementById('observations').value;
 
+    // Cria um novo documento PDF
     const doc = new jsPDF();
 
-    // ⚠️ Certifique-se que template.png está no mesmo diretório
-    doc.addImage('template.png', 'PNG', 0, 0, 210, 297);
+    // Adiciona o template da imagem
+    doc.addImage('template.png', 'PNG', 0, 0, 210, 297); // Ajuste conforme o tamanho do seu template
 
+    // Define o tamanho e a cor da fonte padrão
     doc.setFontSize(20);
-    doc.setTextColor(80, 80, 80);
+    doc.setTextColor(80, 80, 80); // Cor cinza escuro
+
+    // Adiciona o conteúdo do formulário no PDF com formatação
     doc.text(`NF: ${invoiceNumber}`, 5, 17);
 
     doc.setFontSize(14);
+    doc.setTextColor(80, 80, 80);
     doc.text(`Remetente: ${sender}`, 5, 141);
     doc.text(`Destinatário: ${recipient}`, 5, 156);
     doc.text(`Qtd Vol.: ${quantity}`, 5, 171);
@@ -48,11 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
         yOffset += 10;
     });
 
+    // ✅ Adiciona a data atual
     const hoje = new Date();
-    const dataFormatada = hoje.toLocaleDateString('pt-BR');
+    const dataFormatada = hoje.toLocaleDateString('pt-BR'); // Formato: DD/MM/AAAA
     doc.setFontSize(12);
-    doc.text(`Data: ${dataFormatada}`, 160, 53);
+    doc.setTextColor(80, 80, 80);
+    doc.text(`Data: ${dataFormatada}`, 160, 53); // Ajuste as coordenadas conforme necessário
 
+    // Salva o PDF
     doc.save('recibo_pagamento.pdf');
-  });
 });
