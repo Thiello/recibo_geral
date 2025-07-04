@@ -1,42 +1,92 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Login - Sistema de Recibo</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <div class="container">
-    <h1>Login</h1>
-    <form id="loginForm">
-      <label for="email">E-mail:</label><br />
-      <input type="email" id="email" required /><br />
+// Função para buscar usuários no localStorage
+function getUsers() {
+  return JSON.parse(localStorage.getItem('users') || '[]');
+}
 
-      <label for="senha">Senha:</label><br />
-      <input type="password" id="senha" required /><br />
+// Salva usuários no localStorage
+function saveUsers(users) {
+  localStorage.setItem('users', JSON.stringify(users));
+}
 
-      <button type="submit">Entrar</button>
-    </form>
+// Login
+document.getElementById('loginForm').addEventListener('submit', e => {
+  e.preventDefault();
 
-    <hr />
+  const email = document.getElementById('email').value.toLowerCase();
+  const senha = document.getElementById('senha').value;
 
-    <h2>Cadastro</h2>
-    <form id="cadastroForm">
-      <label for="nome">Nome completo:</label><br />
-      <input type="text" id="nome" required /><br />
+  const users = getUsers();
+  const user = users.find(u => u.email === email);
 
-      <label for="emailCadastro">E-mail:</label><br />
-      <input type="email" id="emailCadastro" required /><br />
+  if (!user) {
+    alert('Usuário não encontrado.');
+    return;
+  }
 
-      <label for="senhaCadastro">Senha:</label><br />
-      <input type="password" id="senhaCadastro" required /><br />
+  if (user.senha !== senha) {
+    alert('Senha incorreta.');
+    return;
+  }
 
-      <button type="submit">Cadastrar</button>
-    </form>
-  </div>
+  if (!user.confirmado) {
+    alert('E-mail não confirmado. Por favor, confirme seu e-mail antes de acessar.');
+    return;
+  }
 
-  <script src="login.js"></script>
-</body>
-</html>
+  if (!user.autorizado) {
+    alert('Usuário não autorizado. Aguarde aprovação.');
+    return;
+  }
 
+  // Login OK - salva usuário logado e redireciona
+  localStorage.setItem('usuarioLogado', JSON.stringify(user));
+  alert(`Bem-vindo, ${user.nome}!`);
+  window.location.href = 'index.html'; // Ajuste conforme sua página principal
+});
+
+// Cadastro
+document.getElementById('cadastroForm').addEventListener('submit', e => {
+  e.preventDefault();
+
+  const nome = document.getElementById('nome').value.trim();
+  const email = document.getElementById('emailCadastro').value.toLowerCase();
+  const senha = document.getElementById('senhaCadastro').value;
+
+  if (nome.split(' ').length < 2) {
+    alert('Informe pelo menos nome e sobrenome.');
+    return;
+  }
+
+  let users = getUsers();
+
+  if (users.some(u => u.email === email)) {
+    alert('E-mail já cadastrado.');
+    return;
+  }
+
+  // Novo usuário: não confirmado e não autorizado ainda
+  const novoUser = {
+    nome,
+    email,
+    senha,
+    confirmado: false,
+    autorizado: false,
+  };
+
+  users.push(novoUser);
+  saveUsers(users);
+
+  alert('Cadastro realizado! Por favor, confirme seu e-mail (simulado).');
+
+  // Simula confirmação clicando aqui:
+  if (confirm('Simular confirmação do e-mail agora?')) {
+    novoUser.confirmado = true;
+    alert('E-mail confirmado! Agora aguarde a autorização.');
+
+    // Atualiza no storage
+    saveUsers(users);
+  }
+
+  // Limpa formulário
+  e.target.reset();
+});
