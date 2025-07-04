@@ -1,1 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Sistema de Recibo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Login</h1>
+    <form id="loginForm">
+      <label for="email">E-mail:</label><br />
+      <input type="email" id="email" required /><br />
+
+      <label for="senha">Senha:</label><br />
+      <input type="password" id="senha" required /><br />
+
+      <button type="submit">Entrar</button>
+    </form>
+
+    <hr />
+
+    <h2>Cadastro</h2>
+    <form id="cadastroForm">
+      <label for="nome">Nome completo:</label><br />
+      <input type="text" id="nome" required /><br />
+
+      <label for="emailCadastro">E-mail:</label><br />
+      <input type="email" id="emailCadastro" required /><br />
+
+      <label for="senhaCadastro">Senha:</label><br />
+      <input type="password" id="senhaCadastro" required /><br />
+
+      <button type="submit">Cadastrar</button>
+    </form>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>
 
