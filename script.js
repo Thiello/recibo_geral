@@ -1,12 +1,3 @@
-// script.js (no topo)
-const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-
-if (!usuarioLogado || !usuarioLogado.autorizado || !usuarioLogado.confirmado) {
-  alert("Você precisa estar logado para acessar esta página.");
-  window.location.href = "login.html";
-}
-
-
 document.getElementById('generatePDF').addEventListener('click', async () => {
     const { jsPDF } = window.jspdf;
 
